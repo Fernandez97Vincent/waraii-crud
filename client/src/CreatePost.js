@@ -16,8 +16,9 @@ const [file, setFile] = useState()
 
     const formData = new FormData()
     formData.append("image", file)
+    formData.append("description", description)
 
-    const result = await axios.post('/api/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
     setImageName(result.data.imageName)
   }
     const navigate = useNavigate();
@@ -61,8 +62,13 @@ const [file, setFile] = useState()
           type="file" 
           accept="image/*"
         ></input>
+        <input
+          onChange={e => setDescription(e.target.value)} 
+          type="text"
+        ></input>
         <button type="submit">Submit</button>
       </form>
+      
 
             <Form>
                 <Form.Group>
