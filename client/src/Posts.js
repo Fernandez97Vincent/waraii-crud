@@ -39,6 +39,7 @@ function Posts() {
                             style={{display:"inline-block", padding:"2rem"}}
                             >
                                 <h4>{post.title}</h4>
+                                <img src="{post.images}"/>
                                 <p>Shift: {post.shift}</p>
                                 <h2>Kitchen</h2>
                                 <p>George: {post.george}</p>

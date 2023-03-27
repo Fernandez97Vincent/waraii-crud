@@ -63,6 +63,7 @@ app.get("/", (req, res) => {
 
 app.post("/create", (req, res) => {
     Post.create({
+        image: req.body.images,
         title: req.body.title,
         shift: req.body.shift,
         george: req.body.george,

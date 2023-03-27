@@ -11,16 +11,17 @@ const [file, setFile] = useState()
   const [description, setDescription] = useState("")
   const [imageName, setImageName] = useState()
 
-  const submit = async event => {
-    event.preventDefault()
+//   const submit = async event => {
+//     event.preventDefault()
 
-    const formData = new FormData()
-    formData.append("image", file)
-    formData.append("description", description)
+//     const formData = new FormData()
+//     formData.append("image", file)
+//     formData.append("description", description)
 
-    const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
-    setImageName(result.data.imageName)
-  }
+//     const result = await axios.post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+//     setImageName(result.data.imageName)
+//   }
+
     const navigate = useNavigate();
     const [post, setPost] = useState({
         title: "",
@@ -41,10 +42,20 @@ const [file, setFile] = useState()
     const handleClick = (e) => {
         e.preventDefault();
 
+        const formData = new FormData()
+        formData.append("image", file)
+        formData.append("description", description)
+
         axios
-        .post("/create", post)
+        .post("/create", post, '/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
         .then(res => console.log(res))
         .catch((err) => console.log(err));
+
+        axios
+        .post('/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        .then(res => console.log(res))
+        .catch((err) => console.log(err));
+        // setImageName(result.data.imageName)
 
         navigate("/posts")
     }
@@ -55,7 +66,7 @@ const [file, setFile] = useState()
         <div style={{width: "100%", margin: "auto, auto", textAlign:"center"}}>
             <h1>Create a post</h1>
 
-            <form onSubmit={submit}>
+            {/* <form onSubmit={submit}>
         <input
           filename={file} 
           onChange={e => setFile(e.target.files[0])} 
@@ -67,11 +78,22 @@ const [file, setFile] = useState()
           type="text"
         ></input>
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
       
 
-            <Form>
+            <Form onSubmit={handleClick}>
                 <Form.Group>
+                    <Form.Control
+                    name="image"
+                    value={post.image}
+                    filename={file}
+                    onChange={e => setFile(e.target.files[0])}  
+                    placeholder="title"
+                    type="file"
+                    accept="image/*" 
+                    style={{ marginBottom:"1rem" }}
+                    />
+
                     <Form.Control 
                     name="title"
                     value={post.title} 
@@ -201,7 +223,8 @@ const [file, setFile] = useState()
                     />
 
                 </Form.Group>
-                <Button 
+                <Button
+                type="submit" 
                 onClick={handleClick}>
                     CREATE POST
                 </Button>
